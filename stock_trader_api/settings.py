@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
+from asgiref.typing import ASGIApplication
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +45,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'authentication',
+    'portfolio',
+    'stock_api',
+    'watchlist',
+    'channels'
 ]
 
 REST_FRAMEWORK = {
@@ -67,6 +73,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
 ]
 
+CORS_ALLOW_CREDENTIALS = True  # Allow cookies to be sent with requests
+CORS_ORIGIN_ALLOW_ALL = True    # This allows all origins; adjust for production
+
+
 ROOT_URLCONF = 'stock_trader_api.urls'
 
 TEMPLATES = [
@@ -87,6 +97,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'stock_trader_api.wsgi.application'
 
+ASGI_APPLICATION = 'stock_trader_api.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -103,6 +114,15 @@ DATABASES = {
        'PORT': '5432',
     }
 
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)]
+        }
+    }
 }
 
 
