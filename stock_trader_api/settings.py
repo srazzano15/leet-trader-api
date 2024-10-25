@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 from asgiref.typing import ASGIApplication
-from dotenv import load_dotenv
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'portfolio',
     'stock_api',
     'watchlist',
-    'channels'
+    'channels',
 ]
 
 REST_FRAMEWORK = {
@@ -107,11 +107,11 @@ DATABASES = {
     # Development Database
     'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'stock-trader-app',
-       'USER': 'postgres',
-       'PASSWORD': 'I@m@w3s0m3',
-       'HOST': 'localhost',
-       'PORT': '5432',
+       'NAME': config('DB_NAME'),
+       'USER': config('DB_USER'),
+       'PASSWORD': config('DB_PASSWORD'),
+       'HOST': config('DB_HOST'),
+       'PORT': config('DB_PORT', default='5432'),
     }
 
 }
@@ -168,6 +168,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Environment Variables
-POLYGON_API_KEY = os.getenv('POLYGON_API_KEY')
-ALPACA_API_KEY_ID = os.getenv('ALPACA_API_KEY_ID')
-ALPACA_API_SECRET_KEY = os.getenv('ALPACA_API_SECRET_KEY')
+POLYGON_API_KEY = config('POLYGON_API_KEY')
+ALPACA_API_KEY_ID = config('ALPACA_API_KEY_ID')
+ALPACA_API_SECRET_KEY = config('ALPACA_API_SECRET_KEY')

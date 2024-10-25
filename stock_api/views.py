@@ -1,16 +1,13 @@
 from alpaca.data.requests import MarketMoversRequest
 from alpaca.data.historical.screener import ScreenerClient
-import asyncio
-import yfinance as yf
 
+import yfinance as yf
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 import re
 
-
-ALPACA_API_KEY_ID = 'PKXVKQTFW701A3PJAPBQ'
-ALPACA_API_SECRET_KEY = 'LfaD2SZnbjrZMhuGNrnMHU8zWFJGNBO2LuwghaEE'
+from stock_trader_api.settings import ALPACA_API_KEY_ID, ALPACA_API_SECRET_KEY
 
 
 def extract_domain(url):
@@ -58,6 +55,8 @@ def calculate_percent_change(previous_close, current_price):
 
 class StockMoversView(APIView):
     def get(self, request):
+        print(ALPACA_API_SECRET_KEY)
+        print(ALPACA_API_KEY_ID)
         client = ScreenerClient(api_key=ALPACA_API_KEY_ID, secret_key=ALPACA_API_SECRET_KEY)
         try:
             # Fetch default Stock data view for non-authorized users
